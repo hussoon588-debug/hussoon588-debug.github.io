@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>فحص المتصفح — مدينة الأمير</title>
+<style>
+  :root { color-scheme: dark; }
+  body {
+    margin: 0; padding: 20px; background: #081712; color: #e9f2ec;
+    font-family: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+    line-height: 1.7; font-size: 15px;
+  }
+  h1 { font-size: 18px; margin: 0 0 12px; color: #d9a441; }
+  .row { border-bottom: 1px solid #1d3a31; padding: 8px 0; }
+  .k { color: #8fb3a4; font-size: 12px; display: block; }
+  .v { word-break: break-word; }
+  .ok { color: #6ee7a8; }
+  .bad { color: #f87171; }
+  #err { margin-top: 14px; font-size: 12px; color: #f87171; white-space: pre-wrap; }
+  a { color: #d9a441; }
+</style>
+</head>
+<body>
+<h1>فحص المتصفح — مدينة الأمير</h1>
+<p style="font-size:13px;color:#8fb3a4;margin:0 0 10px">
+  صفحة مستقلة تمامًا عن اللعبة: لا تبنى معها ولا تحتاج أي حزمة. إن ظهرت لك
+  هذه الصفحة كاملة فالخطأ في اللعبة، وإن ظهرت ناقصة أو لم تظهر فالخطأ في
+  المتصفح أو الشبكة.
+</p>
+<div id="out"><div class="row"><span class="k">جافاسكربت</span><span class="v">لم يعمل بعد…</span></div></div>
+<div id="err"></div>
+<p style="margin-top:18px">
+  <a href="../">العودة إلى اللعبة</a> ·
+  <a href="reset.html">تنظيف النسخة القديمة</a>
+</p>
+<script>
+(function () {
+  var rows = [];
+  function row(k, v, cls) {
+    var d = document.createElement("div");
+    d.className = "row";
+    var kk = document.createElement("span");
+    kk.className = "k"; kk.textContent = k;
+    var vv = document.createElement("span");
+    vv.className = "v" + (cls ? " " + cls : ""); vv.textContent = String(v);
+    d.appendChild(kk); d.appendChild(vv);
+    return d;
+  }
+  var out = document.getElementById("out");
+  out.textContent = "";
+
+  out.appendChild(row("جافاسكربت", "يعمل ✔", "ok"));
+  out.appendChild(row("المتصفح", navigator.userAgent));
+  out.appendChild(row("اللغة", navigator.language || "—"));
+  if (navigator.deviceMemory) out.appendChild(row("ذاكرة الجهاز (تقريب)", navigator.deviceMemory + " GB"));
+
+  var webgl = "لا";
+  var gl2 = null, gl1 = null, renderer = "—";
+  try {
+    var c = document.createElement("canvas");
+    gl2 = c.getContext("webgl2");
+    if (!gl2) {
+      var c1 = document.createElement("canvas");
+      gl1 = c1.getContext("webgl") || c1.getContext("experimental-webgl");
+    }
+    if (gl2 || gl1) {
+      webgl = "مدعوم";
+      var gl = gl2 || gl1;
+      var dbg = gl.getExtension("WEBGL_debug_renderer_info");
+      if (dbg) renderer = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) || "—";
+      out.appendChild(row("WebGL 2", gl2 ? "نعم" : "لا"));
+    }
+  } catch (e) {
+    webgl = "خطأ: " + e.message;
+  }
+  out.appendChild(row("WebGL", webgl, webgl === "مدعوم" ? "ok" : "bad"));
+  out.appendChild(row("كرت الرسم", renderer));
+  out.appendChild(row("الشاشة", screen.width + "×" + screen.height + " @ " + (window.devicePixelRatio || 1) + "x"));
+
+  try {
+    localStorage.setItem("__cp_probe", "1");
+    localStorage.removeItem("__cp_probe");
+    out.appendChild(row("التخزين المحلي", "متاح ✔", "ok"));
+  } catch (e) {
+    out.appendChild(row("التخزين المحلي", "ممنوع — الحفظ سيعمل بالذاكرة فقط", "bad"));
+  }
+
+  var img = new Image();
+  img.onload = function () { out.appendChild(row("صور الأصول", "تُحمَّل ✔", "ok")); };
+  img.onerror = function () { out.appendChild(row("صور الأصول", "فشلت — تحقّق من الشبكة", "bad")); };
+  img.src = "icons/icon-192.png?probe=" + Date.now();
+
+  var x = new XMLHttpRequest();
+  x.onload = function () { out.appendChild(row("طلب الشبكة", "HTTP " + x.status, "ok")); };
+  x.onerror = function () { out.appendChild(row("طلب الشبكة", "فشل", "bad")); };
+  try { x.open("GET", "manifest.webmanifest?probe=" + Date.now(), true); x.send(); } catch (e) {}
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function (r) {
+      out.appendChild(row("عامل الخدمة", r.length ? r.length + " مسجّل" : "لا يوجد"));
+    }).catch(function () {});
+  }
+})();
+window.addEventListener("error", function (e) {
+  document.getElementById("err").textContent = "خطأ: " + (e.message || e.type);
+});
+</script>
+</body>
+</html>
