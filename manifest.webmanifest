@@ -1,0 +1,30 @@
+{
+  "name": "مدينة الأمير — محرر بناء المدن",
+  "short_name": "مدينة الأمير",
+  "description": "ابنِ مدينتك بيتًا بيتًا وشارعًا شارعًا — بناء حر ثلاثي الأبعاد مع اقتصاد وخدمات وأحداث حية. تطوير Hussein Alasswdi",
+  "id": "/",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["fullscreen", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#081712",
+  "theme_color": "#0c211c",
+  "categories": ["games", "simulation"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    {
+      "name": "افتح مدينتك",
+      "short_name": "مدينتي",
+      "url": "/",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
