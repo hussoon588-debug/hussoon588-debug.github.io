@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>إصلاح اللعبة — مدينة الأمير</title>
+<style>
+  :root { color-scheme: dark; }
+  body {
+    margin: 0; padding: 24px; min-height: 100vh; box-sizing: border-box;
+    background: #081712; color: #e9f2ec; display: grid; place-items: center;
+    font-family: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+    text-align: center;
+  }
+  h1 { font-size: 20px; margin: 0 0 12px; }
+  p { font-size: 15px; line-height: 1.8; color: #8fb3a4; margin: 0 0 10px; max-width: 420px; }
+  .ok { color: #6ee7a8; }
+  .bad { color: #f87171; }
+  ul { list-style: none; padding: 0; margin: 16px 0; font-size: 13px; color: #9fc2b4; }
+  li { padding: 4px 0; }
+  a.btn {
+    display: inline-block; margin-top: 18px; padding: 11px 22px; border-radius: 12px;
+    border: 1px solid #2e5348; background: #0d201a; color: #e9f2ec;
+    text-decoration: none; font-size: 15px;
+  }
+  a.btn:hover { border-color: #d9a441; color: #d9a441; }
+</style>
+</head>
+<body>
+<main>
+  <h1>تنظيف وتحديث اللعبة</h1>
+  <p>هذه الصفحة تمسح النسخة القديمة المحفوظة في المتصفح ثم تفتح اللعبة من جديد.</p>
+  <ul id="log"></ul>
+  <p id="msg">جارٍ التنظيف…</p>
+  <a class="btn" id="go" href="../" style="display:none">افتح اللعبة</a>
+</main>
+<script>
+(function () {
+  var log = document.getElementById("log");
+  var msg = document.getElementById("msg");
+  var go = document.getElementById("go");
+  function line(text, cls) {
+    var li = document.createElement("li");
+    li.textContent = text;
+    if (cls) li.className = cls;
+    log.appendChild(li);
+  }
+  var target = "../?fresh=" + Date.now();
+
+  function finish() {
+    msg.innerHTML = "تم التنظيف <span class='ok'>✔</span> — نفتح اللعبة الآن.";
+    go.style.display = "inline-block";
+    go.href = target;
+    setTimeout(function () { location.replace(target); }, 900);
+  }
+
+  var jobs = [];
+
+  if ("serviceWorker" in navigator) {
+    jobs.push(navigator.serviceWorker.getRegistrations().then(function (rs) {
+      return Promise.all(rs.map(function (r) { return r.unregister(); })).then(function () {
+        line("نسخة عامل الخدمة القديمة: " + (rs.length ? "حُذفت (" + rs.length + ")" : "لا يوجد"), "ok");
+      });
+    }).catch(function () { line("تعذّر حذف عامل الخدمة", "bad"); }));
+  } else {
+    line("المتصفح لا يدعم عامل الخدمة — لا شيء يُحذف", "ok");
+  }
+
+  if (window.caches && caches.keys) {
+    jobs.push(caches.keys().then(function (keys) {
+      return Promise.all(keys.map(function (k) { return caches.delete(k); })).then(function () {
+        line("الملفات المخزّنة: " + (keys.length ? "مُسحت (" + keys.length + ")" : "لا يوجد"), "ok");
+      });
+    }).catch(function () { line("تعذّر مسح الكاش", "bad"); }));
+  }
+
+  try {
+    localStorage.removeItem("__cp_probe");
+    line("التخزين المحلي: سليم، وبيانات مدنك لم تُمس", "ok");
+  } catch (e) {}
+
+  Promise.all(jobs).then(finish, finish);
+})();
+</script>
+</body>
+</html>
