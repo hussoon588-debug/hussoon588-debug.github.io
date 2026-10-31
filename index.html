@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>مشاريعي — Hussoon588</title>
+<meta name="theme-color" content="#050d1f">
+<meta name="description" content="كل التطبيقات والمواقع في مكان واحد">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23050d1f'/><path d='M18 46V18h6v11h16V18h6v28h-6V35H24v11z' fill='%23e8c46a'/></svg>">
+<style>
+:root{
+  --navy:#050d1f; --navy2:#0a1730; --gold:#e8c46a; --gold2:#b8912f;
+  --ink:#eef3fb; --muted:#8ea0bd; --line:rgba(232,196,106,.18);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  min-height:100vh; background:
+    radial-gradient(1200px 600px at 50% -10%, #10224a 0%, transparent 60%),
+    linear-gradient(180deg,#050d1f,#03080f 70%);
+  color:var(--ink); font-family:"Segoe UI",Tahoma,system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased; padding:0 18px 56px;
+}
+.wrap{max-width:840px;margin:0 auto}
+header{padding:56px 0 28px;text-align:center}
+.mark{
+  width:72px;height:72px;margin:0 auto 18px;border-radius:20px;
+  display:grid;place-items:center;font:800 30px/1 Georgia,serif;color:#08111f;
+  background:linear-gradient(160deg,#ffe9a8,#e8c46a 45%,#b8912f);
+  box-shadow:0 12px 34px rgba(232,196,106,.28), inset 0 1px 0 #fff8dc;
+}
+h1{margin:0 0 8px;font-size:clamp(26px,6vw,38px);letter-spacing:.2px}
+h1 span{color:var(--gold)}
+p.sub{margin:0;color:var(--muted);font-size:15px}
+.grid{display:grid;gap:14px;margin-top:34px}
+.card{
+  display:block;text-decoration:none;color:inherit;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,var(--navy2),#060f22);
+  border:1px solid var(--line); border-radius:18px; padding:20px 20px 18px;
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.card:before{
+  content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--gold),transparent);
+}
+a.card:hover{transform:translateY(-2px);border-color:rgba(232,196,106,.45);
+  box-shadow:0 16px 40px rgba(0,0,0,.45)}
+.card h2{margin:0 0 6px;font-size:19px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.card p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}
+.badge{
+  font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;
+  background:rgba(232,196,106,.14);color:var(--gold);border:1px solid var(--line);
+}
+.badge.soon{background:rgba(142,160,189,.12);color:var(--muted)}
+.card.soon{border-style:dashed;cursor:default}
+.card.soon:before{background:linear-gradient(180deg,#33415c,transparent)}
+footer{margin-top:38px;text-align:center;color:#5f7292;font-size:12.5px;line-height:1.9}
+footer a{color:#8ea0bd}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="mark">H</div>
+    <h1>مشاريعي <span>·</span> Hussoon588</h1>
+    <p class="sub">كل التطبيقات والمواقع هنا، في مكان واحد</p>
+  </header>
+
+  <main class="grid">
+    <a class="card" href="/faksab-smart-city/">
+      <h2>فكسب سمارت سيتي <span class="badge">مباشر</span></h2>
+      <p>لعبة مدينة عربية — 50 قطعة أرض، طرق وسيارات، بناء بيوت ومستويات. تعمل داخل المتصفح وعلى أندرويد.</p>
+    </a>
+
+    <div class="card soon">
+      <h2>مشروعك القادم <span class="badge soon">متاح</span></h2>
+      <p>هذه المساحة محجوزة لأي تطبيق أو موقع جديد — قل لي اسمه ويتحول إلى رابط حقيقي هنا.</p>
+    </div>
+
+    <div class="card soon">
+      <h2>مشروع آخر <span class="badge soon">متاح</span></h2>
+      <p>نفس الشيء: كل مشروع يحصل على رابط ثابت خاص به تحت هذا العنوان.</p>
+    </div>
+  </main>
+
+  <footer>
+    استضافة دائمة مجانية على GitHub Pages · <a href="https://github.com/hussoon588-debug">github.com/hussoon588-debug</a>
+  </footer>
+</div>
+</body>
+</html>
